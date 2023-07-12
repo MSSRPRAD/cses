@@ -10,10 +10,10 @@ const unsigned ll MOD = 1000000007;
 ll combinations(ll no_coins, ll value, std::vector<ll> &coins){
   std::vector<ll> dp(value+1, 0);
   dp[0] = 1;
-  for(ll val = 1; val <= value; val++){
-    for(ll coin = 0; coin < no_coins; coin++){
+  for(ll coin = 0; coin < no_coins; coin++){
+    for(ll val = 1; val <= value; val++){
       if(coins[coin] <= val){
-        dp[val] += (dp[val-coins[coin]])%MOD;
+        dp[val] += dp[val-coins[coin]]%MOD;
       }
     }
   }
