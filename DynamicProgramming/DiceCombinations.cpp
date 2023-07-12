@@ -5,24 +5,37 @@
 
 const unsigned ll MOD = 1000000007;
 
-ll dice_combinations(ll n){
-  std::vector<ll> dp(n+6,0);
-  ll i = 0;
-  for(i = 0; i < 6; i++ ){
-    dp[i] = 0;
+ll ans = 0;
+// TLE
+void compute(ll left){
+  if(left == 0){
+    ans += 1;
+  } else {
+    for(ll i = 1; i <= 6; i++){
+      if(left-i>=0){
+        compute(left-i);
+      }
+    }
   }
-  for(i = 6; i < n+6 && i < 12; i++){
-    dp[i] = 1;
+}
+
+// DP
+ll compute_dp(ll n){
+  std::vector<ll> dp(n+1);
+  dp[0] = 1;
+  for(ll sum = 1; sum <= n; sum++){
+    for(ll i = 1; i <= 6; i++){
+      if(sum - i >= 0){
+        dp[sum] += dp[sum-i]%MOD;
+      }
+    }
   }
-  for(i = 6; i < n+6; i++){
-    dp[i] += (dp[i-1] + dp[i-2] + dp[i-3] + dp[i-4] + dp[i-5] + dp[i-6])%MOD;
-  }
-  return dp[n+5]%MOD;
+  return dp[n]%MOD;
 }
 
 int main(void){
   ll n;
   std::cin>>n;
-  std::cout<<dice_combinations(n);
+  std::cout<<compute_dp(n);
   return 0;
 }
