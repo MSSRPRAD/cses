@@ -1,0 +1,1 @@
+#!/bin/bash \n echo "The current date and time is: $(date)"
